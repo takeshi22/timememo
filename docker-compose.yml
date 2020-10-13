@@ -1,0 +1,27 @@
+version: '3'
+services:
+  server:
+    build: ./server
+    tty: true
+    volumes:
+      - .:/go/src/timememo
+    ports:
+      - "5050:5050"
+  front:
+    build: ./client
+    tty: true
+    volumes:
+      - ./:/usr/src/timememo
+    ports:
+      - "9000:9000"
+  db:
+    image: postgres
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: timememo
+      POSTGRES_PASSWORD: timememo
+  web:
+    build: ./web
+    ports: 
+      - "1250:1250"
