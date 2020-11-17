@@ -8,10 +8,11 @@ services:
     ports:
       - "5050:5050"
   front:
-    build: ./client
+    build: ./web
     tty: true
     volumes:
-      - ./:/usr/src/timememo
+      - ./web:/timememo/web
+      - /web/node_modules
     ports:
       - "9000:9000"
   db:
@@ -21,7 +22,7 @@ services:
     environment:
       POSTGRES_USER: timememo
       POSTGRES_PASSWORD: timememo
-  web:
-    build: ./web
-    ports: 
-      - "1250:1250"
+  # web:
+  #   build: ./web
+  #   ports: 
+  #     - "1250:1250"

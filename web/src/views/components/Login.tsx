@@ -13,7 +13,7 @@ export const Login = () => {
     password: "",
   } as Iinfo);
 
-  const handleChange = e => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
 
     setInfo({

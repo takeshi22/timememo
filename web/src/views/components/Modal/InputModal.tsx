@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useState } from "react";
-import axios from "axios";
 import { Button } from "../button";
 import { Modal, ModalBody, ModalFooter } from "./Modal";
 
@@ -38,25 +37,7 @@ export const InputModal = (props: Props) => {
   };
 
   const onAddPlan = () => {
-
-    axios({
-      method: "post",
-      url: "/plan",
-      data: planData,
-      headers: {
-        "Content-Type": "application/json"
-      },
-      proxy: {
-        host: "127.0.0.1",
-        port: 5050,
-      },
-    })
-    .then((response) => {
-      onClose();
-    })
-    .catch((error) => {
-      console.log(error);
-    })
+    return;
   };
 
   return (

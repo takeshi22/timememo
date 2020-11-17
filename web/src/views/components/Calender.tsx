@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import "../style/style.scss";
+// import "../style/style.scss";
 import { ListModal } from "./Modal/ListModal";
 import { initialData } from "../data/data";
 
@@ -12,7 +12,7 @@ interface IState {
   day?: number;
 }
 
-export const UserCalender = (IState) => {
+export const UserCalender = () => {
   const now = new Date();
   const weeks = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -21,7 +21,7 @@ export const UserCalender = (IState) => {
   const [isOpen, setIsOpen] = useState(false);
   const [registDate, setRegistDate] = useState("");
 
-  const onOpenModal = (registDay) => {
+  const onOpenModal = (registDay: any) => {
     setRegistDate(registDay);
     setIsOpen(true);
   };
@@ -73,7 +73,7 @@ export const UserCalender = (IState) => {
     return weeks.map((week) => <td key={week}>{week}</td>);
   };
 
-  const changeMonth = (direction) => {
+  const changeMonth = (direction: any) => {
     if (direction === "next") {
       setMonth(month + 1);
     } else if (direction === "prev") {
@@ -81,7 +81,7 @@ export const UserCalender = (IState) => {
     }
   };
 
-  const buttonRender = (icon, direction) => {
+  const buttonRender = (icon: any, direction: any) => {
     return <button onClick={() => changeMonth(direction)}>{icon}</button>;
   };
 

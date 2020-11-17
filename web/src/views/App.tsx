@@ -1,19 +1,18 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import React from 'react';
 import { Login } from "./components/Login";
-import Calender from "./components/Calender"
+import Calender from "./components/Calender";
 import { Router, Switch, Route, Link } from "react-router-dom";
 import { createBrowserHistory } from "history";
 
 const history = createBrowserHistory();
 
-function Index(){
+function App() {
   return (
     <Router history={history}>
       <ul>
         <Link to="/calender">calender</Link>
         <Link to="/login">login</Link>
-      </ul> 
+      </ul>
       <Switch>
         <Route path="/login">
           <Login />
@@ -26,7 +25,4 @@ function Index(){
   );
 }
 
-ReactDOM.render(
-  <Index />,
-  document.getElementById("app")
-)
+export default App;
