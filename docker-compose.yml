@@ -7,6 +7,8 @@ services:
       - .:/go/src/timememo
     ports:
       - "5050:5050"
+    networks:
+      - my-network
   front:
     build: ./web
     tty: true
@@ -15,8 +17,15 @@ services:
       - /web/node_modules
     ports:
       - "9000:9000"
+    networks:
+      - my-network
   db:
     image: postgres
+    # hostname: timememo
+    ports:
+      - "5432:5432"
+    networks:
+        - my-network
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
     environment:
@@ -26,3 +35,6 @@ services:
   #   build: ./web
   #   ports: 
   #     - "1250:1250"
+networks:
+  my-network:
+    external: true

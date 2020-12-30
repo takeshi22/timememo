@@ -1,22 +1,41 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	_ "github.com/lib/pq"
+	"github.com/joho/godotenv"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
-var Db *sql.DB
+type Schedule struct {
+	gorm.Model
+	Title     string
+	Content   string
+	Date      time.Time
+	StartTime string
+	EndTime   string
+}
 
 func init() {
 	var err error
-	Db, err = sql.Open("postgres", fmt.Sprintf("user=%s dbname=%s password=%s", os.Getenv("USER_NAME"), os.Getenv("DB_NAME"), os.Getenv("PASSWORD")))
+	err = godotenv.Load(".env")
+	if err != nil {
+		fmt.Println("fatal!!")
+	}
+
+	dsn := fmt.Sprintf("host=%s user=%s dbname=%s password=%s TimeZone=%s",
+		os.Getenv("HOST_NAME"), os.Getenv("USER_NAME"), os.Getenv("DB_NAME"), os.Getenv("PASSWORD"), os.Getenv("TIME_ZONE"))
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(err)
+	}
+	if (!db.Migrator().HasTable(&Schedule{})) {
+		fmt.Println("not exist!!")
 	}
 }
 
