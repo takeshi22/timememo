@@ -8,7 +8,7 @@ export interface Props {
   onClose?: () => void;
 }
 
-interface Ischedule{
+interface Schedule{
   title: string;
   startTime: string;
   endTime: string;
@@ -24,7 +24,7 @@ export const InputModal = (props: Props) => {
     eventDay: "",
     endTime: "",
     content: ""
-  } as Ischedule);
+  } as Schedule);
 
   const handleChange = e => {
     const { name, value } = e.target;
