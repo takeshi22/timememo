@@ -15,9 +15,9 @@ type Schedule struct {
 }
 
 type CreateSchedule struct {
-	Title     string `json:"title" binding:"required"`
-	Content   string `json:"content"`
-	Day       string `json:"day"`
-	StartTime string `json:"startTime"`
-	EndTime   string `json:"endTime"`
+	Title     string         `json:"title" binding:"required"`
+	Content   string         `json:"content"`
+	Day       datatypes.Date `json:"day"`
+	StartTime string         `json:"startTime"`
+	EndTime   string         `json:"endTime"`
 }

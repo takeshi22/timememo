@@ -15,5 +15,7 @@ func main() {
 	r.Use(cors.New(config))
 
 	r.GET("/schedule", controllers.GetSchdules)
+	r.POST("/schedule", controllers.CreateSchedule)
+
 	r.Run(":5050")
 }
