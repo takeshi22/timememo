@@ -11,7 +11,7 @@ import (
 
 var Db *gorm.DB
 
-func Connect() {
+func init() {
 	var err error
 	err = godotenv.Load(".env")
 	if err != nil {
@@ -29,6 +29,8 @@ func Connect() {
 	if err != nil {
 		panic(err)
 	}
+
+	database.Migrator().DropTable(&Schedule{})
 	database.AutoMigrate(&Schedule{})
 	Db = database
 }
