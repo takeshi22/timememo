@@ -5,7 +5,7 @@ import { initialData } from "../data/data";
 
 interface IState {
   isOpen: boolean;
-  weeks: string[];
+  days: string[];
   year: number;
   month: number;
   day?: number;
@@ -13,11 +13,10 @@ interface IState {
 
 export const UserCalender = () => {
   const now = new Date();
-  const weeks = ["日", "月", "火", "水", "木", "金", "土"];
+  const days = ["日", "月", "火", "水", "木", "金", "土"];
 
   const [year, setYear] = useState(now.getFullYear());
   const [month, setMonth] = useState(now.getMonth() + 1);
-  
   const [isOpen, setIsOpen] = useState(false);
   const [registDate, setRegistDate] = useState("");
 
@@ -31,9 +30,9 @@ export const UserCalender = () => {
     const endDay = new Date(year, month, 0).getDate();
     const lastMonthEndDay = new Date(year, month - 1, 0).getDate();
 
-    return [1, 2, 3, 4, 5].map((weekRow, wIndex) => (
+    return Array.from(Array(6)).map((weekRow, wIndex) => (
       <tr className="day-line" key={wIndex}>
-        {weeks.map((week, dIndex) => {
+        {days.map((week, dIndex) => {
           const day = dIndex + 1 + wIndex * 7;
           const renderDay = day - startDay;
           const registDay = `${year}-${month}-${renderDay}`;
@@ -70,7 +69,7 @@ export const UserCalender = () => {
   };
 
   const weekRender = () => {
-    return weeks.map((week) => <td key={week}>{week}</td>);
+    return days.map((week) => <td key={week}>{week}</td>);
   };
 
   const changeMonth = (direction: string) => {

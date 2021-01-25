@@ -1,12 +1,14 @@
 import * as React from "react";
 
-interface Props {
+interface Ownrops {
   clickHandle?: () => void;
   children: any;
 }
 
-export const Button = (props: Props) => {
-  const { clickHandle } = props;
+type Props = Ownrops & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-  return <button onClick={clickHandle}>{props.children}</button>;
+export const Button = (props: Props) => {
+  const { clickHandle, type } = props;
+
+  return <button type={type || null} onClick={clickHandle}>{props.children}</button>;
 };

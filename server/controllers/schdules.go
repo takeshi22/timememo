@@ -22,7 +22,8 @@ func CreateSchedule(c *gin.Context) {
 		return
 	}
 
-	schedule := models.Schedule{Title: input.Title, Day: input.Day}
+	fmt.Println(input.Day)
+	schedule := models.Schedule{Title: input.Title, Content: input.Content, Day: input.Day, StartTime: input.StartTime, EndTime: input.EndTime}
 	models.Db.Create(&schedule)
 
 	c.JSON(http.StatusOK, gin.H{"data": schedule})
