@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useState } from "react";
-import Validation from '../Validate'
 
 interface Iinfo{
   email: string;

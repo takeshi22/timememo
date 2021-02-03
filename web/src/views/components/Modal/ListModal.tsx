@@ -6,7 +6,7 @@ import { InputModal } from "./InputModal"
 import { initialData } from "../../data/data";
 
 export interface Props {
-  isOpen?: boolean;
+  isOpen: boolean;
   registDate: string;
   onClose?: () => void;
 }
