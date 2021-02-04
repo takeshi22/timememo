@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.1.4",
+    "@emotion/styled": "^11.0.0",
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -14,7 +16,6 @@
     "axios": "^0.21.1",
     "date-fns": "^2.16.1",
     "formik": "^2.2.6",
-    "node-sass": "^4.14.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
@@ -23,9 +24,7 @@
     "typescript": "^4.0.3",
     "web-vitals": "^0.2.4"
   },
-  "devDependencies": {
-    "node-sass": "^4.14.1"
-  },
+  "devDependencies": {},
   "scripts": {
     "start": "PORT=9000 react-scripts start",
     "build": "react-scripts build",
