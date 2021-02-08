@@ -12,9 +12,13 @@ function App() {
       <ul>
         <Link to="/calender">calender</Link>
         <Link to="/login">login</Link>
+        <Link to="/signup">signup</Link>
       </ul>
       <Switch>
         <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/signup">
           <Login />
         </Route>
         <Route path="/calender">

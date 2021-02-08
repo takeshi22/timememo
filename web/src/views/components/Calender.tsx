@@ -1,5 +1,7 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
+import { getDay, getDate, getMonth, getYear } from "date-fns";
+import styled from "@emotion/styled";
 import { ListModal } from "./Modal/ListModal";
 import { initialData } from "../data/data";
 
@@ -11,42 +13,74 @@ interface IState {
   day?: number;
 }
 
+const Table = styled.table`
+  max-width: 800px;
+  width: 100%;
+  margin: auto;
+`;
+
+const Td = styled.td`
+  cursor: pointer;
+`;
+
+const DAYS = ["日", "月", "火", "水", "木", "金", "土"];
+
 export const UserCalender = () => {
-  const now = new Date();
-  const days = ["日", "月", "火", "水", "木", "金", "土"];
+  const date = new Date();
 
-  const [year, setYear] = useState(now.getFullYear());
-  const [month, setMonth] = useState(now.getMonth() + 1);
-  const [isOpen, setIsOpen] = useState(false);
-  const [registDate, setRegistDate] = useState("");
+  const [year, setYear] = useState<number>(getYear(date));
+  const [month, setMonth] = useState<number>(getMonth(date) + 1);
 
-  const onOpenModal = (registDay: any) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [registDate, setRegistDate] = useState<string>("");
+
+  const onOpenModal = (registDay: string) => {
     setRegistDate(registDay);
     setIsOpen(true);
   };
 
-  const daysRender = () => {
-    const startDay = new Date(year, month - 1, 1).getDay();
-    const endDay = new Date(year, month, 0).getDate();
-    const lastMonthEndDay = new Date(year, month - 1, 0).getDate();
+  const DaysRender = () => {
+    const [startDate, setStartDate] = useState<number>(null);
+    const [endDate, setEndDate] = useState<number>(null);
+    const [lastMonthEndDate, setLastMonthEndDate] = useState<number>(null);
 
-    return Array.from(Array(6)).map((weekRow, wIndex) => (
+    const [lastMonthEndDay, setLastMonthEndDay] = useState<number>(null);
+    const [nextMonthStartDay, setNextMonthStartDay] = useState<number>(null);
+    const [renderWeekLength, setRenderWeekLength] = useState<number>(null);
+
+    useEffect(() => {
+      setStartDate(new Date(year, month - 1, 1).getDay());
+      setEndDate(getDate(new Date(year, month, 0)));
+      setLastMonthEndDate(getDate(new Date(year, month - 1, 0)));
+      setLastMonthEndDay(getDay(new Date(year, month - 1, 1)));
+      setNextMonthStartDay(getDay(new Date(year, month + 1, 1)));
+    }, [year, month]);
+
+    useEffect(() => {
+      setRenderWeekLength(
+        Math.ceil((endDate + lastMonthEndDay + (7 - nextMonthStartDay)) / 7)
+      );
+    }, [endDate, lastMonthEndDay, nextMonthStartDay]);
+
+    return Array.from(Array(renderWeekLength)).map((weekRow, wIndex) => (
       <tr className="day-line" key={wIndex}>
-        {days.map((week, dIndex) => {
+        {DAYS.map((week, dIndex) => {
           const day = dIndex + 1 + wIndex * 7;
-          const renderDay = day - startDay;
-          const registDay = `${year}-${month}-${renderDay}`;
+          const renderDay = day - startDate;
+          const registDay = `${year}/${month}/${renderDay}`;
 
           return renderDay <= 0 ? (
-            <td key={dIndex}>
-              <span className="day otherDay">{lastMonthEndDay - startDay + day}</span>
-            </td>
-          ) : renderDay > endDay ? (
-            <td key={dIndex}>
-              <span className="day otherDay">{renderDay - endDay}</span>
-            </td>
+            <Td key={dIndex}>
+              <span className="day otherDay">
+                {lastMonthEndDate - startDate + day}
+              </span>
+            </Td>
+          ) : renderDay > endDate ? (
+            <Td key={dIndex}>
+              <span className="day otherDay">{renderDay - endDate}</span>
+            </Td>
           ) : (
-            <td
+            <Td
               className="day-button"
               key={dIndex}
               onClick={() => onOpenModal(registDay)}
@@ -61,7 +95,7 @@ export const UserCalender = () => {
               )}
 
               <span className="day">{renderDay}</span>
-            </td>
+            </Td>
           );
         })}
       </tr>
@@ -69,7 +103,7 @@ export const UserCalender = () => {
   };
 
   const weekRender = () => {
-    return days.map((week) => <td key={week}>{week}</td>);
+    return DAYS.map((week) => <th key={week}>{week}</th>);
   };
 
   const changeMonth = (direction: string) => {
@@ -79,7 +113,7 @@ export const UserCalender = () => {
         const newYear = year + 1;
         setMonth(1);
         setYear(newYear);
-        
+
         return;
       }
 
@@ -107,19 +141,19 @@ export const UserCalender = () => {
   };
 
   return (
-    <div className="content mx-auto">
+    <div className="content">
       <h2>{`${year}年${month}月`}</h2>
 
       <div className="button">
         {buttonRender("<<", "prev")}
         {buttonRender(">>", "next")}
       </div>
-      <table className="calender-table mx-auto">
+      <Table>
         <thead>
           <tr>{weekRender()}</tr>
         </thead>
-        <tbody>{daysRender()}</tbody>
-      </table>
+        <tbody>{DaysRender()}</tbody>
+      </Table>
 
       {isOpen && (
         <ListModal
