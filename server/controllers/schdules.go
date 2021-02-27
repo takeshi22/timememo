@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"timememo/models"
 
@@ -10,7 +9,6 @@ import (
 
 func GetSchdules(c *gin.Context) {
 	var schedules []models.Schedule
-	fmt.Println("get!!")
 	models.Db.Find(&schedules)
 	c.JSON(http.StatusOK, gin.H{"data": schedules})
 }
@@ -22,7 +20,6 @@ func CreateSchedule(c *gin.Context) {
 		return
 	}
 
-	fmt.Println(input.Day)
 	schedule := models.Schedule{Title: input.Title, Content: input.Content, Day: input.Day, StartTime: input.StartTime, EndTime: input.EndTime}
 	models.Db.Create(&schedule)
 

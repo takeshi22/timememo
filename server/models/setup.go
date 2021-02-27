@@ -12,10 +12,17 @@ import (
 var Db *gorm.DB
 
 func init() {
+	_, ok := os.LookupEnv("ENVIRONMENT")
+
 	var err error
-	err = godotenv.Load(".env")
+	if ok == true {
+		err = godotenv.Load("../.env")
+	} else {
+		err = godotenv.Load(".env")
+	}
+
 	if err != nil {
-		fmt.Println("fatal!!")
+		fmt.Println("fatal!! not found .env file")
 	}
 
 	dsn := fmt.Sprintf("host=%s user=%s dbname=%s password=%s TimeZone=%s",
@@ -30,7 +37,6 @@ func init() {
 		panic(err)
 	}
 
-	database.Migrator().DropTable(&Schedule{})
 	database.AutoMigrate(&Schedule{})
 	Db = database
 }
