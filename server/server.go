@@ -2,6 +2,7 @@ package main
 
 import (
 	"timememo/controllers"
+	"timememo/models"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -16,6 +17,8 @@ func main() {
 
 	r.GET("/schedule", controllers.GetSchdules)
 	r.POST("/schedule", controllers.CreateSchedule)
+
+	r.POST("/signup", models.Signup)
 
 	r.Run(":5050")
 }

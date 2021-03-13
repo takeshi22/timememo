@@ -32,7 +32,7 @@ func TestCreateUser(t *testing.T) {
 	assert.NoError(t, err)
 
 	Db.Where("email = ?", user.Email).Find(&userResult)
-	Db.Unscoped().Delete(&user)
+	Db.Unscoped().Where("email = ?", user.Email).Delete(&user)
 
 	assert.Equal(t, "test@icloud.com", userResult.Email)
 }
