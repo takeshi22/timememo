@@ -3,6 +3,7 @@ package main
 import (
 	"timememo/controllers"
 	"timememo/models"
+	"log"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -15,10 +16,15 @@ func main() {
 	config.AllowOrigins = []string{"http://localhost:9000"}
 	r.Use(cors.New(config))
 
+	err := models.InitDatabase()
+	if err != nil {
+		log.Fatalln("could not create database", err)
+	}
+
 	r.GET("/schedule", controllers.GetSchdules)
 	r.POST("/schedule", controllers.CreateSchedule)
+	r.POST("/signup", controllers.Signup)
 
-	r.POST("/signup", models.Signup)
 
 	r.Run(":5050")
 }

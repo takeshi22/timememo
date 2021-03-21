@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"os"
+	"log"
 
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
@@ -11,17 +12,17 @@ import (
 
 var Db *gorm.DB
 
-func init() {
+func InitDatabase() (err error) {
 	_, ok := os.LookupEnv("ENVIRONMENT")
 
-	var err error
+	var loadError error
 	if ok == true {
-		err = godotenv.Load("../.env")
+		loadError = godotenv.Load("../.env")
 	} else {
-		err = godotenv.Load(".env")
+		loadError = godotenv.Load(".env")
 	}
 
-	if err != nil {
+	if loadError != nil {
 		fmt.Println("fatal!! not found .env file")
 	}
 
@@ -34,9 +35,11 @@ func init() {
 
 	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		panic(err)
+		log.Fatalln("Failed to connect to database")
 	}
 
 	database.AutoMigrate(&Schedule{})
 	Db = database
+
+	return
 }
