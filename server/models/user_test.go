@@ -20,7 +20,12 @@ func TestHashPassword(t *testing.T) {
 func TestCreateUser(t *testing.T) {
 	var userResult User
 
-	err := Db.AutoMigrate(&User{})
+	err := InitDatabase()
+	if err != nil {
+		t.Error(err)
+	}
+
+	err = Db.AutoMigrate(&User{})
 	assert.NoError(t, err)
 
 	user := User{

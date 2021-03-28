@@ -24,6 +24,7 @@ func main() {
 	r.GET("/schedule", controllers.GetSchdules)
 	r.POST("/schedule", controllers.CreateSchedule)
 	r.POST("/signup", controllers.Signup)
+	r.POST("/login", controllers.Login)
 
 
 	r.Run(":5050")

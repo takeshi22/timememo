@@ -13,9 +13,7 @@ type User struct {
 }
 
 func (user *User) CreateUser() error {
-	item := User{Name: user.Name, Email: user.Email, Password: user.Password}
-	result := Db.Create(&item)
-
+	result := Db.Create(&user)
 	if result.Error != nil {
 		return result.Error
 	}
